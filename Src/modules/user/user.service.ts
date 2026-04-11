@@ -14,7 +14,7 @@ export const userService = {
     const userExists = await userRepository.findByEmail(data.email);
 
     if (userExists) {
-      throw new Error("Usuário já existe");
+      throw new AppError("Usuário já existe");
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -36,7 +36,7 @@ export const userService = {
     const user = await userRepository.findById(id);
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
+      throw new AppError("Usuário não encontrado");
     }
 
     return user;
@@ -50,7 +50,7 @@ export const userService = {
     const user = await userRepository.findById(id);
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
+      throw new AppError("Usuário não encontrado");
     }
 
     return userRepository.update(id, data);
@@ -60,7 +60,7 @@ export const userService = {
     const user = await userRepository.findById(id);
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
+      throw new AppError("Usuário não encontrado");
     }
 
     return userRepository.delete(id);

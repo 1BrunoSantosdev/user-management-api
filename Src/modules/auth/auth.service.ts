@@ -1,6 +1,7 @@
 import { userRepository } from "../user/user.repository";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { AppError } from "../../utils/AppError";
 
 export const authService = {
 
@@ -9,13 +10,13 @@ export const authService = {
     const user = await userRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error("Credenciais inválidas");
+      throw new AppError("Credenciais inválidas");
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Credenciais inválidas");
+      throw new AppError("Credenciais inválidas");
     }
 
     const token = jwt.sign(
