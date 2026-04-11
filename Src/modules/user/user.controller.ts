@@ -50,18 +50,27 @@ export const userController = {
   },
 
   async delete(req: Request, res: Response) {
-    try {
-      const id = req.params.id as string;
+  try {
+    const id = req.params.id as string;
 
-      await userService.delete(id);
+    await userService.delete(id);
 
-      return res.status(204).send();
-    } catch (error: any) {
-      return res.status(400).json({ message: error.message });
+    return res.status(204).send();
+  } catch (error: any) {
+
+    if (error.statusCode) {
+      return res.status(error.statusCode).json({
+        message: error.message
+      });
     }
-  },
 
-  async updatePassword(req: Request, res: Response) {
+    return res.status(500).json({
+      message: "Internal server error"
+    });
+  }
+},
+
+async updatePassword(req: Request, res: Response) {
     try {
       const id = req.params.id as string;
       const { password } = req.body;

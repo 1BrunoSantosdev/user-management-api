@@ -1,3 +1,4 @@
+import { AppError } from "../../utils/AppError";
 import { userRepository } from "./user.repository";
 import bcrypt from "bcryptjs";
 
@@ -70,12 +71,17 @@ export const userService = {
     const user = await userRepository.findById(id);
 
     if (!user) {
-      throw new Error("Usuário não encontrado");
+      throw new AppError("Usuário não encontrado",  404);
+    }
+
+    if (!password) {
+      throw new AppError("Senha é obrigatória",  400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    return userRepository.updatePassword(id, hashedPassword);
+    await userRepository.updatePassword(id, hashedPassword);
+    
   }
 
 };
