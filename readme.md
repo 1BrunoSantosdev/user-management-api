@@ -49,5 +49,4 @@ npm run dev
 
 .env:
 DATABASE_URL="file:./dev.db"
-JWT_SECRET="your_secret"
 PORT=3000

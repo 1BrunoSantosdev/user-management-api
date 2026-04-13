@@ -20,7 +20,7 @@ export function authMiddleware(
 
     const [, token] = authHeader.split(" ");
 
-    const decoded = jwt.verify(token, "secret") as TokenPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
 
     (req as any).userId = decoded.id;
 

@@ -7,32 +7,21 @@ export const authService = {
 
   async login(email: string, password: string) {
 
-    const user = await userRepository.findByEmail(email);
+  const user = await userRepository.findByEmail(email);
+  if (!user) throw new AppError("Credenciais inválidas");
 
-    if (!user) {
-      throw new AppError("Credenciais inválidas");
-    }
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) throw new AppError("Credenciais inválidas");
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new AppError("JWT_SECRET não configurado");
 
-    if (!passwordMatch) {
-      throw new AppError("Credenciais inválidas");
-    }
+  const token = jwt.sign({ id: user.id }, secret, { expiresIn: "1d" });
 
-    const token = jwt.sign(
-      { id: user.id },
-      "secret", 
-      { expiresIn: "1d" }
-    );
-
-    return {
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email
-      }
-    };
-  }
+  return {
+    token,
+    user: { id: user.id, name: user.name, email: user.email }
+  };
+}
 
 };
