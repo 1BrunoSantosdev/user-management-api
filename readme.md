@@ -1,13 +1,12 @@
-User Management API
+## User Management API
 
 ---
 
-API REST para gerenciamento de usuários com autenticação JWT, desenvolvida com 
-Node.js, TypeScript e Prisma, seguindo boas práticas de arquitetura em camadas.
+## API REST para gerenciamento de usuários com autenticação JWT, desenvolvida com Node.js, TypeScript e Prisma, seguindo boas práticas de arquitetura em camadas.
 
 ---
 
-Tecnologias
+## Tecnologias
 - Node.js
 - TypeScript
 - Express
@@ -27,7 +26,7 @@ Tecnologias
 
 ---
 
-Funcionalidades
+## Funcionalidades
 - Cadastro de usuários
 - Listagem com paginação
 - Busca por ID
@@ -40,14 +39,14 @@ Funcionalidades
 
 ---
 
-Execução
-npm install
-npx prisma migrate dev
-npm run dev
+## Execução:
+- npm install
+- npx prisma migrate dev
+- npm run dev
 
 ---
 
-.env:
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="your_secret"
-PORT=3000
+## .env:
+- DATABASE_URL="file:./dev.db"
+- JWT_SECRET="your_secret"
+- PORT=3000
