@@ -19,11 +19,11 @@ Tecnologias
 
 ---
 
-Controller: recebe requisições e retorna respostas
-Service: regras de negócio
-Repository: acesso ao banco
-Middleware: erros e autenticação
-Schema: validação com Zod
+- Controller: recebe requisições e retorna respostas
+- Service: regras de negócio
+- Repository: acesso ao banco
+- Middleware: erros e autenticação
+- Schema: validação com Zod
 
 ---
 
