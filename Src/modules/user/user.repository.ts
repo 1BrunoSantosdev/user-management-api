@@ -27,8 +27,18 @@ export const userRepository = {
   async findAll(skip: number, take: number) {
     return prisma.user.findMany({
       skip,
-      take
+      take,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+    },
     });
+  },
+
+  async count() {
+    return prisma.user.count();
   },
 
   async update(id: string, data: {

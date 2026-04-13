@@ -1,5 +1,6 @@
 import { AppError } from "../../utils/AppError";
 import { userRepository } from "./user.repository";
+import { UpdateUserDTO } from "./user.schema";
 import bcrypt from "bcryptjs";
 
 export const userService = {
@@ -27,9 +28,23 @@ export const userService = {
   },
 
   async findAll(page: number, limit: number) {
+
     const skip = (page - 1) * limit;
 
-    return userRepository.findAll(skip, limit);
+    const [users, total] = await Promise.all([
+      userRepository.findAll(skip, limit),
+      userRepository.count()
+   ]);
+
+    return {
+      data: users,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      },
+    };
   },
 
   async findById(id: string) {
@@ -42,10 +57,7 @@ export const userService = {
     return user;
   },
 
-  async update(id: string, data: {
-    name?: string;
-    email?: string;
-  }) {
+  async update(id: string, data: UpdateUserDTO) {
 
     const user = await userRepository.findById(id);
 
@@ -71,17 +83,17 @@ export const userService = {
     const user = await userRepository.findById(id);
 
     if (!user) {
-      throw new AppError("Usuário não encontrado",  404);
-    }
+      throw new AppError("Usuário não encontrado", 404);
+  }
+    const isSamePassword = await bcrypt.compare(password, user.password);
 
-    if (!password) {
-      throw new AppError("Senha é obrigatória",  400);
-    }
-
+    if (isSamePassword) {
+      throw new AppError("Nova senha não pode ser igual à anterior", 400);
+  }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await userRepository.updatePassword(id, hashedPassword);
-    
+    return; 
   }
-
-};
+  
+}

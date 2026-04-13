@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { errorMiddleware } from "./middlewares/error.middleware";
 
 import { userRoutes } from "./modules/user/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
@@ -11,3 +12,5 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+
+app.use(errorMiddleware);
